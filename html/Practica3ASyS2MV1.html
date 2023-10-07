@@ -1,0 +1,566 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Pr&aacute;ctica 3: Se&ntilde;ales en tiempo continuo</title><meta name="generator" content="MATLAB 9.12"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-10-06"><meta name="DC.source" content="Practica3ASyS2MV1.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Pr&aacute;ctica 3: Se&ntilde;ales en tiempo continuo</h1><!--introduction--><div><ul><li>Lopez Solano Irvin</li><li>Moreno Castro Jose Pablo</li><li>Pedraza Ocampo Eduardo</li><li>Portillo Martinez Carolina</li><li>Reyes Alvarez Angel</li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1"><b>Objetivo</b></a></li><li><a href="#2"><b>Introduccion</b></a></li><li><a href="#3">Secci&oacute;n 1.11 Lathi</a></li><li><a href="#4">Soluci&oacute;n al problema 1.2-2</a></li><li><a href="#5">Solucion al problema 1.11-1</a></li><li><a href="#6">Construccion de grafica</a></li><li><a href="#7">Solucion al problema 1.11-3</a></li></ul></div><h2 id="1"><b>Objetivo</b></h2><p>Hoy vamos a hablar sobre el objetivo de nuestra pr&aacute;ctica relacionada con se&ntilde;ales de tiempo continuo.</p><p>Nuestro Objetivo de la Pr&aacute;ctica es el siguiente:</p><p>Queremos crear una p&aacute;gina web donde podamos presentar y explicar ejercicios resueltos de se&ntilde;ales de tiempo continuo utilizando MATLAB. Para lograrlo, vamos a seguir estos pasos juntos:</p><p>1. Lo primero es crear una cuenta en [GitHub](<a href="https://github.com/">https://github.com/</a>) si todav&iacute;a no la tienes.</p><p>2. Despu&eacute;s, nos vamos a familiarizar con c&oacute;mo funciona GitHub, especialmente en lo que se refiere a la gesti&oacute;n de repositorios y c&oacute;mo cargar archivos.</p><p>3. Utilizaremos MATLAB para resolver ejercicios espec&iacute;ficos de se&ntilde;ales de tiempo continuo.</p><p>4. Luego, vamos a crear una p&aacute;gina web que incluya una descripci&oacute;n detallada de nuestra pr&aacute;ctica (asegur&aacute;ndonos de cambiar la etiqueta de 'Pr&aacute;ctica 1' a 'Pr&aacute;ctica 3' en el documento HTML) y vamos a agregar un enlace al video que describe el contenido de la pr&aacute;ctica (cambiando la etiqueta de 'Pr&aacute;ctica 1' a 'Pr&aacute;ctica 3' en el enlace del video).</p><p>5. Despu&eacute;s, alojaremos nuestra p&aacute;gina web en GitHub, de modo que cualquiera pueda acceder a ella a trav&eacute;s de un enlace.</p><p>6. Por &uacute;ltimo, compartiremos el enlace de la p&aacute;gina web y los archivos de nuestra aplicaci&oacute;n en la tarea correspondiente en Teams, siguiendo una nomenclatura espec&iacute;fica.</p><p>Nuestro objetivo final es demostrar nuestra capacidad para utilizar GitHub como plataforma de alojamiento web y para presentar ejercicios resueltos de se&ntilde;ales de tiempo continuo de una manera clara y organizada. Esta pr&aacute;ctica nos permitir&aacute; desarrollar habilidades t&eacute;cnicas, aprender a utilizar herramientas de desarrollo colaborativo y mejorar nuestras habilidades de comunicaci&oacute;n al presentar nuestros resultados en l&iacute;nea.</p><h2 id="2"><b>Introduccion</b></h2><p>La comprensi&oacute;n de las se&ntilde;ales y sistemas es esencial en el mundo de la ingenier&iacute;a, las ciencias aplicadas y muchas otras disciplinas. Richard Lathi, con su renombrado libro de se&ntilde;ales y sistemas, ha proporcionado una s&oacute;lida base de conocimientos en este campo. Si est&aacute;s buscando recursos para ayudarte a entender y dominar estos conceptos, has llegado al lugar correcto.</p><p>En esta p&aacute;gina web, hemos emprendido la tarea de resolver una variedad de ejercicios seleccionados de "Se&ntilde;ales y Sistemas" de Lathi. Nuestro objetivo es ofrecerte soluciones claras y detalladas, junto con explicaciones paso a paso, para ayudarte a abordar estos desafiantes problemas de manera efectiva.</p><p>Ya seas un estudiante que busca apoyo adicional, un profesional en busca de repaso o simplemente alguien curioso por aprender m&aacute;s sobre se&ntilde;ales y sistemas, aqu&iacute; encontrar&aacute;s recursos &uacute;tiles para mejorar tu comprensi&oacute;n. Cada ejercicio resuelto est&aacute; cuidadosamente explicado, y estamos comprometidos en proporcionarte una experiencia de aprendizaje enriquecedora.</p><p>Te invitamos a explorar nuestra colecci&oacute;n de ejercicios resueltos y a utilizarlos como referencia en tu estudio de se&ntilde;ales y sistemas. Adem&aacute;s, si tienes preguntas o necesitas aclaraciones adicionales, no dudes en ponerte en contacto con nosotros.</p><p>Acomp&aacute;&ntilde;anos en este viaje de descubrimiento y aprendizaje, mientras exploramos los fascinantes conceptos de se&ntilde;ales y sistemas, y los aplicamos en la resoluci&oacute;n de problemas del mundo real.</p><h2 id="3">Secci&oacute;n 1.11 Lathi</h2><p>Seccion 1 Problema 1. Se reprodujo la seccion 1.11 de Lathi</p><pre class="codeinput">f = @(t) exp(-t).*cos(2*pi*t);
+t = 0; f(t)
+f(0)
+t = (-2:2);
+f(t)
+plot(t,f(t));
+xlabel(<span class="string">'t'</span>); ylabel(<span class="string">'f(t)'</span>); grid;
+t = (-2:0.01:2);
+plot(t,f(t));
+xlabel(<span class="string">'t'</span>); ylabel(<span class="string">'f(t)'</span>); grid;
+u = @(t) 1.0.*(t&gt;=0);
+t = (-2:2); plot(t,u(t));
+xlabel(<span class="string">'t'</span>); ylabel(<span class="string">'u(t)'</span>);
+t = (-2:0.01:2); plot(t,u(t));
+xlabel(<span class="string">'t'</span>); ylabel(<span class="string">'u(t)'</span>);
+axis([-2 2 -0.1 1.1]);
+p = @(t) 1.0.*((t&gt;=0)&amp;(t&lt;1));
+t = (-1:0.01:2); plot(t,p(t));
+xlabel(<span class="string">'t'</span>); ylabel(<span class="string">'p(t) = u(t)-u(t-1)'</span>);
+axis([-1 2 -.1 1.1]);
+g = @(t) f(t).*u(t);
+t = (-2:0.01:2);
+plot(t,g(2*t+1)); xlabel(<span class="string">'t'</span>); ylabel(<span class="string">'g(2t+1)'</span>); grid;
+plot(t,g(-t+1)); xlabel(<span class="string">'t'</span>); ylabel(<span class="string">'g(-t+1)'</span>); grid;
+plot(t,g(2*t+1)+g(-t+1)); xlabel(<span class="string">'t'</span>); ylabel(<span class="string">'h(t)'</span>); grid;
+x = @(t) exp(-t).*((t&gt;=0)&amp;(t&lt;1));
+t = (0:0.01:1);
+E_x = sum(x(t).*x(t)*0.01)
+x_squared = @(t) x(t).*x(t);
+E_x = quad(x_squared,0,1)
+g_squared = @(t) g(t).*g(t);
+t = (0:0.001:100);
+E_g = sum(g_squared(t)*0.001)
+E_g = quad(g_squared,0,100)
+<span class="comment">%</span>
+<span class="comment">%</span>
+<span class="comment">%</span>
+</pre><pre class="codeoutput">
+ans =
+
+     1
+
+
+ans =
+
+     1
+
+
+ans =
+
+    7.3891    2.7183    1.0000    0.3679    0.1353
+
+
+E_x =
+
+    0.4367
+
+
+E_x =
+
+    0.4323
+
+
+E_g =
+
+    0.2567
+
+
+E_g =
+
+    0.2562
+
+</pre><img vspace="5" hspace="5" src="Practica3ASyS2MV1_01.png" alt=""> <h2 id="4">Soluci&oacute;n al problema 1.2-2</h2><p>Se soluciona el problema 1.2-2 de Lathi, el cual dice lo siguiente: Para la se&ntilde;al x(t) de la siguiente grafica</p><pre class="codeinput">t = -4:0.01:4;
+x = zeros(size(t));
+x(t &gt;= -4 &amp; t &lt; 0) = -t(t &gt;= -4 &amp; t &lt; 0);
+x(t &gt;= 0 &amp; t &lt; 2) = t(t &gt;= 0 &amp; t &lt; 2);
+
+figure;
+plot(t, x, <span class="string">'LineWidth'</span>, 2);
+xlabel(<span class="string">'t'</span>);
+ylabel(<span class="string">'x(t)'</span>);
+title(<span class="string">'Gr&aacute;fica de la se&ntilde;al x(t)'</span>);
+grid <span class="string">on</span>;
+
+<span class="comment">%Para (a) x(t&#8722;4)</span>
+<span class="comment">% (b) x(t/1.5)</span>
+<span class="comment">% (c) x(&#8722;t)</span>
+<span class="comment">% (d) x(2t&#8722;4)</span>
+<span class="comment">% (e) x(2&#8722;t)</span>
+<span class="comment">% Soluci&oacute;n</span>
+<span class="comment">% a) x(t-4):</span>
+t = -4:0.01:4;
+x = zeros(size(t));
+x(t &gt;= 0 &amp; t &lt; 4) = t(t &gt;= 0 &amp; t &lt; 4);
+figure;
+plot(t, x);
+xlabel(<span class="string">'t'</span>);
+ylabel(<span class="string">'x(t-4)'</span>);
+title(<span class="string">'x(t-4)'</span>);
+grid <span class="string">on</span>;
+
+<span class="comment">% b) x(t/1.5):</span>
+t = -6:0.01:6;
+x = zeros(size(t));
+x(t &gt;= -4 &amp; t &lt; 0) = -t(t &gt;= -4 &amp; t &lt; 0);
+x(t &gt;= 0 &amp; t &lt; 3) = t(t &gt;= 0 &amp; t &lt; 3);
+figure;
+plot(t, x);
+xlabel(<span class="string">'t'</span>);
+ylabel(<span class="string">'x(t/1.5)'</span>);
+title(<span class="string">'x(t/1.5)'</span>);
+grid <span class="string">on</span>;
+
+<span class="comment">% c) x(-t)</span>
+t = -4:0.01:4;
+x = zeros(size(t));
+x(t &gt;= 0 &amp; t &lt; 4) = t(t &gt;= 0 &amp; t &lt; 4);
+figure;
+plot(t, x);
+xlabel(<span class="string">'t'</span>);
+ylabel(<span class="string">'x(-t)'</span>);
+title(<span class="string">'x(-t)'</span>);
+grid <span class="string">on</span>;
+
+<span class="comment">% d) x(2t-4):</span>
+t = -2:0.01:2;
+x = zeros(size(t));
+x(t &gt;= 0 &amp; t &lt; 2) = t(t &gt;= 0 &amp; t &lt; 2);
+figure;
+plot(t, x);
+xlabel(<span class="string">'t'</span>);
+ylabel(<span class="string">'x(2t-4)'</span>);
+title(<span class="string">'x(2t-4)'</span>);
+grid <span class="string">on</span>;
+
+<span class="comment">% e) x(2-t)</span>
+t = -4:0.01:4;
+x = zeros(size(t));
+x(t &gt;= 0 &amp; t &lt; 2) = t(t &gt;= 0 &amp; t &lt; 2);
+figure;
+plot(t, x);
+xlabel(<span class="string">'t'</span>);
+ylabel(<span class="string">'x(2-t)'</span>);
+title(<span class="string">'x(2-t)'</span>);
+grid <span class="string">on</span>;
+</pre><img vspace="5" hspace="5" src="Practica3ASyS2MV1_02.png" alt=""> <img vspace="5" hspace="5" src="Practica3ASyS2MV1_03.png" alt=""> <img vspace="5" hspace="5" src="Practica3ASyS2MV1_04.png" alt=""> <img vspace="5" hspace="5" src="Practica3ASyS2MV1_05.png" alt=""> <img vspace="5" hspace="5" src="Practica3ASyS2MV1_06.png" alt=""> <img vspace="5" hspace="5" src="Practica3ASyS2MV1_07.png" alt=""> <h2 id="5">Solucion al problema 1.11-1</h2><p>Proporciona c&oacute;digo MATLAB y su salida que tracen la parte impar xo(t) de la funci&oacute;n x(t) =2&#8722;t cos(2&#960;t)u(t&#8722;&#960;) sobre un intervalo de longitud adecuada usando un n&uacute;mero adecuado de puntos.</p><p>Definimos el vector de tiempo</p><pre class="codeinput">t = linspace(-2, 4, 1000); <span class="comment">% Personaliza el intervalo y el n&uacute;mero de puntos seg&uacute;n tus necesidades</span>
+
+<span class="comment">% Definimos la funci&oacute;n x(t)</span>
+x = @(t) (2.^-t) .* cos(2 * pi * t) .* (t &gt;= pi);
+
+<span class="comment">% Calculamos la porci&oacute;n impar xo(t)</span>
+xo = 0.5 * (x(t) - x(-t));
+
+<span class="comment">% Creamos una gr&aacute;fica para xo(t)</span>
+plot(t, xo);
+title(<span class="string">'Representaci&oacute;n Gr&aacute;fica de la Porci&oacute;n Impar xo(t)'</span>);
+xlabel(<span class="string">'t'</span>);
+ylabel(<span class="string">'xo(t)'</span>);
+grid <span class="string">on</span>;
+<span class="comment">%</span>
+<span class="comment">%</span>
+</pre><img vspace="5" hspace="5" src="Practica3ASyS2MV1_08.png" alt=""> <h2 id="6">Construccion de grafica</h2><p>Construye la grafica para syms t k; expression = cos(2*pi*k*t); sum_expression = symsum(expression, k, 1, 10); disp(sum_expression);</p><pre class="codeinput">t = linspace(0, 1, 1000);
+figure;
+<span class="keyword">for</span> i = 1:4
+    y = zeros(size(t));
+    <span class="keyword">for</span> k = 1:i
+        y = y + cos(2*pi*k*t);
+    <span class="keyword">end</span>
+
+    subplot(2, 2, i);
+
+    plot(t, y, <span class="string">'LineWidth'</span>, 2);
+    title([<span class="string">'Suma parcial hasta k = '</span> num2str(i)]);
+    xlabel(<span class="string">'t'</span>);
+    ylabel(<span class="string">'y(t)'</span>);
+    grid <span class="string">on</span>;
+<span class="keyword">end</span>
+<span class="comment">%</span>
+</pre><img vspace="5" hspace="5" src="Practica3ASyS2MV1_09.png" alt=""> <h2 id="7">Solucion al problema 1.11-3</h2><p>Define x(t) = e^(t(1+j2&#960;)) * u(&#8722;t) y y(t) = Re(2x((-5-t)/2)) a) Usa MATLAB para graficar Re{x(t)} versus Im{x(at)} para a = 0.5, 1 y 2, y -10 &#8804; t &#8804; 10. &iquest;Qu&eacute; tan importante es el factor de escala a en la forma de la figura resultante? b) Usa MATLAB para graficar y(t) en el intervalo -10 &#8804; t &#8804; 10. Determina anal&iacute;ticamente el tiempo t0 donde y(t) tiene una discontinuidad de salto. Verifica tu c&aacute;lculo de  utilizando la gr&aacute;fica de y(t). c) Usa MATLAB e integraci&oacute;n num&eacute;rica para calcular la energ&iacute;a Ex de la se&ntilde;al x(t). d) Usa MATLAB e integraci&oacute;n num&eacute;rica para calcular la energ&iacute;a Ey de la se&ntilde;al y(t).</p><pre class="codeinput"><span class="comment">% Para el punto a)</span>
+<span class="comment">%</span>
+t = -10:0.01:10;
+a_values = [0.5, 1, 2];
+figure;
+
+<span class="keyword">for</span> i = 1:length(a_values)
+    a = a_values(i);
+    x_t = exp(t * (1j * 2 * pi * a)) .* (t &gt;= 0);
+
+    subplot(length(a_values), 1, i);
+    plot(imag(x_t), real(x_t), <span class="string">'LineWidth'</span>, 2);
+    title([<span class="string">'Re\{x(t)\} for a = '</span> num2str(a)]);
+    xlabel(<span class="string">'Im\{x(at)\}'</span>);
+    ylabel(<span class="string">'Re\{x(at)\}'</span>);
+    grid <span class="string">on</span>;
+<span class="keyword">end</span>
+
+<span class="comment">% b) Graficar y(t) y determinante</span>
+x_t = exp(t * (1j * 2 * pi * 2)) .* (t &gt;= 0);
+y_t = real(2 * x_t((-5 - t) / 2));
+
+figure;
+plot(t, y_t, <span class="string">'LineWidth'</span>, 2);
+title(<span class="string">'y(t)'</span>);
+xlabel(<span class="string">'t'</span>);
+ylabel(<span class="string">'y(t)'</span>);
+grid <span class="string">on</span>;
+
+t_0 = 0;
+
+disp([<span class="string">'Analytical t_0: '</span> num2str(t_0)]);
+disp([<span class="string">'Jump at t_0: '</span> num2str(y_t(t == t_0))]);
+
+<span class="comment">% c) Energia Ex</span>
+x_t = exp(t * (1j * 2 * pi * 2)) .* (t &gt;= 0);
+E_x = trapz(t, abs(x_t).^2);
+disp([<span class="string">'Energy E_x: '</span> num2str(E_x)]);
+
+<span class="comment">% d) Energia Ey</span>
+x_t = exp(t * (1j * 2 * pi * 2)) .* (t &gt;= 0);
+y_t = real(2 * x_t((-5 - t) / 2));
+E_y = trapz(t, abs(y_t).^2);
+
+disp([<span class="string">'Energy E_y: '</span> num2str(E_y)]);
+</pre><pre class="codeoutput error">Array indices must be positive integers or logical values.
+
+Error in Practica3ASyS2MV1 (line 236)
+y_t = real(2 * x_t((-5 - t) / 2));
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2022a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+       %% Práctica 3: Señales en tiempo continuo
+% * Lopez Solano Irvin
+% * Moreno Castro Jose Pablo
+% * Pedraza Ocampo Eduardo
+% * Portillo Martinez Carolina
+% * Reyes Alvarez Angel
+%
+    %% *Objetivo* 
+% Hoy vamos a hablar sobre el objetivo de nuestra práctica relacionada con señales de tiempo continuo. 
+% 
+% Nuestro Objetivo de la Práctica es el siguiente:
+% 
+% Queremos crear una página web donde podamos presentar y explicar ejercicios resueltos de señales de tiempo continuo utilizando MATLAB. Para lograrlo, vamos a seguir estos pasos juntos:
+% 
+% 1. Lo primero es crear una cuenta en [GitHub](https://github.com/) si todavía no la tienes.
+% 
+% 2. Después, nos vamos a familiarizar con cómo funciona GitHub, especialmente en lo que se refiere a la gestión de repositorios y cómo cargar archivos.
+% 
+% 3. Utilizaremos MATLAB para resolver ejercicios específicos de señales de tiempo continuo.
+% 
+% 4. Luego, vamos a crear una página web que incluya una descripción detallada de nuestra práctica (asegurándonos de cambiar la etiqueta de 'Práctica 1' a 'Práctica 3' en el documento HTML) y vamos a agregar un enlace al video que describe el contenido de la práctica (cambiando la etiqueta de 'Práctica 1' a 'Práctica 3' en el enlace del video).
+% 
+% 5. Después, alojaremos nuestra página web en GitHub, de modo que cualquiera pueda acceder a ella a través de un enlace.
+% 
+% 6. Por último, compartiremos el enlace de la página web y los archivos de nuestra aplicación en la tarea correspondiente en Teams, siguiendo una nomenclatura específica.
+% 
+% Nuestro objetivo final es demostrar nuestra capacidad para utilizar GitHub como plataforma de alojamiento web y para presentar ejercicios resueltos de señales de tiempo continuo de una manera clara y organizada. Esta práctica nos permitirá desarrollar habilidades técnicas, aprender a utilizar herramientas de desarrollo colaborativo y mejorar nuestras habilidades de comunicación al presentar nuestros resultados en línea.
+% 
+
+    %% *Introduccion* 
+%
+% La comprensión de las señales y sistemas es esencial en el mundo de la ingeniería, las ciencias aplicadas y muchas otras disciplinas. Richard Lathi, con su renombrado libro de señales y sistemas, ha proporcionado una sólida base de conocimientos en este campo. Si estás buscando recursos para ayudarte a entender y dominar estos conceptos, has llegado al lugar correcto.
+%
+% En esta página web, hemos emprendido la tarea de resolver una variedad de ejercicios seleccionados de "Señales y Sistemas" de Lathi. Nuestro objetivo es ofrecerte soluciones claras y detalladas, junto con explicaciones paso a paso, para ayudarte a abordar estos desafiantes problemas de manera efectiva.
+%
+% Ya seas un estudiante que busca apoyo adicional, un profesional en busca de repaso o simplemente alguien curioso por aprender más sobre señales y sistemas, aquí encontrarás recursos útiles para mejorar tu comprensión. Cada ejercicio resuelto está cuidadosamente explicado, y estamos comprometidos en proporcionarte una experiencia de aprendizaje enriquecedora.
+%
+% Te invitamos a explorar nuestra colección de ejercicios resueltos y a utilizarlos como referencia en tu estudio de señales y sistemas. Además, si tienes preguntas o necesitas aclaraciones adicionales, no dudes en ponerte en contacto con nosotros.
+%
+% Acompáñanos en este viaje de descubrimiento y aprendizaje, mientras exploramos los fascinantes conceptos de señales y sistemas, y los aplicamos en la resolución de problemas del mundo real.
+
+%% Sección 1.11 Lathi
+% Seccion 1 Problema 1. Se reprodujo la seccion 1.11 de Lathi
+% 
+f = @(t) exp(-t).*cos(2*pi*t);
+t = 0; f(t)
+f(0)
+t = (-2:2);
+f(t)
+plot(t,f(t));
+xlabel('t'); ylabel('f(t)'); grid;
+t = (-2:0.01:2);
+plot(t,f(t));
+xlabel('t'); ylabel('f(t)'); grid;
+u = @(t) 1.0.*(t>=0);
+t = (-2:2); plot(t,u(t));
+xlabel('t'); ylabel('u(t)');
+t = (-2:0.01:2); plot(t,u(t));
+xlabel('t'); ylabel('u(t)');
+axis([-2 2 -0.1 1.1]);
+p = @(t) 1.0.*((t>=0)&(t<1));
+t = (-1:0.01:2); plot(t,p(t));
+xlabel('t'); ylabel('p(t) = u(t)-u(t-1)');
+axis([-1 2 -.1 1.1]);
+g = @(t) f(t).*u(t);
+t = (-2:0.01:2);
+plot(t,g(2*t+1)); xlabel('t'); ylabel('g(2t+1)'); grid;
+plot(t,g(-t+1)); xlabel('t'); ylabel('g(-t+1)'); grid;
+plot(t,g(2*t+1)+g(-t+1)); xlabel('t'); ylabel('h(t)'); grid;
+x = @(t) exp(-t).*((t>=0)&(t<1));
+t = (0:0.01:1);
+E_x = sum(x(t).*x(t)*0.01)
+x_squared = @(t) x(t).*x(t);
+E_x = quad(x_squared,0,1)
+g_squared = @(t) g(t).*g(t);
+t = (0:0.001:100);
+E_g = sum(g_squared(t)*0.001)
+E_g = quad(g_squared,0,100)
+%
+%
+% 
+%% Solución al problema 1.2-2 
+% Se soluciona el problema 1.2-2 de Lathi, el cual dice lo siguiente:
+% Para la señal x(t) de la siguiente grafica
+t = -4:0.01:4;
+x = zeros(size(t));
+x(t >= -4 & t < 0) = -t(t >= -4 & t < 0);
+x(t >= 0 & t < 2) = t(t >= 0 & t < 2);
+
+figure;
+plot(t, x, 'LineWidth', 2);
+xlabel('t');
+ylabel('x(t)');
+title('Gráfica de la señal x(t)');
+grid on;
+
+%Para (a) x(t−4)
+% (b) x(t/1.5)
+% (c) x(−t)
+% (d) x(2t−4)
+% (e) x(2−t)
+% Solución
+% a) x(t-4):
+t = -4:0.01:4; 
+x = zeros(size(t));
+x(t >= 0 & t < 4) = t(t >= 0 & t < 4); 
+figure;
+plot(t, x);
+xlabel('t');
+ylabel('x(t-4)');
+title('x(t-4)');
+grid on;
+
+% b) x(t/1.5):
+t = -6:0.01:6; 
+x = zeros(size(t)); 
+x(t >= -4 & t < 0) = -t(t >= -4 & t < 0); 
+x(t >= 0 & t < 3) = t(t >= 0 & t < 3); 
+figure;
+plot(t, x);
+xlabel('t');
+ylabel('x(t/1.5)');
+title('x(t/1.5)');
+grid on;
+
+% c) x(-t)
+t = -4:0.01:4;
+x = zeros(size(t)); 
+x(t >= 0 & t < 4) = t(t >= 0 & t < 4); 
+figure;
+plot(t, x);
+xlabel('t');
+ylabel('x(-t)');
+title('x(-t)');
+grid on;
+
+% d) x(2t-4):
+t = -2:0.01:2;
+x = zeros(size(t)); 
+x(t >= 0 & t < 2) = t(t >= 0 & t < 2); 
+figure;
+plot(t, x);
+xlabel('t');
+ylabel('x(2t-4)');
+title('x(2t-4)');
+grid on;
+
+% e) x(2-t)
+t = -4:0.01:4; 
+x = zeros(size(t));
+x(t >= 0 & t < 2) = t(t >= 0 & t < 2); 
+figure;
+plot(t, x);
+xlabel('t');
+ylabel('x(2-t)');
+title('x(2-t)');
+grid on;
+
+%% Solucion al problema 1.11-1
+%
+% Proporciona código MATLAB y su salida que tracen la parte impar xo(t) de la función x(t) =2−t cos(2πt)u(t−π) sobre un intervalo de longitud adecuada
+% usando un número adecuado de puntos.
+%
+% Definimos el vector de tiempo
+t = linspace(-2, 4, 1000); % Personaliza el intervalo y el número de puntos según tus necesidades
+
+% Definimos la función x(t)
+x = @(t) (2.^-t) .* cos(2 * pi * t) .* (t >= pi);
+
+% Calculamos la porción impar xo(t)
+xo = 0.5 * (x(t) - x(-t));
+
+% Creamos una gráfica para xo(t)
+plot(t, xo);
+title('Representación Gráfica de la Porción Impar xo(t)');
+xlabel('t');
+ylabel('xo(t)');
+grid on;
+%
+%
+%% Construccion de grafica
+% Construye la grafica para  
+% syms t k;
+% expression = cos(2*pi*k*t);
+% sum_expression = symsum(expression, k, 1, 10);
+% disp(sum_expression);
+%
+t = linspace(0, 1, 1000);
+figure;
+for i = 1:4
+    y = zeros(size(t));
+    for k = 1:i
+        y = y + cos(2*pi*k*t);
+    end
+   
+    subplot(2, 2, i); 
+    
+    plot(t, y, 'LineWidth', 2);
+    title(['Suma parcial hasta k = ' num2str(i)]);
+    xlabel('t');
+    ylabel('y(t)');
+    grid on;
+end
+%
+
+%% Solucion al problema 1.11-3
+% Define x(t) = e^(t(1+j2π)) * u(−t) y y(t) = Re(2x((-5-t)/2))
+% a) Usa MATLAB para graficar Re{x(t)} versus Im{x(at)} para a = 0.5, 1 y 2, y -10 ≤ t ≤ 10. 
+% ¿Qué tan importante es el factor de escala a en la forma de la figura resultante?
+% b) Usa MATLAB para graficar y(t) en el intervalo -10 ≤ t ≤ 10. Determina analíticamente el
+% tiempo t0 donde y(t) tiene una discontinuidad de salto. Verifica tu cálculo de  utilizando
+% la gráfica de y(t).
+% c) Usa MATLAB e integración numérica para calcular la energía Ex de la señal x(t).
+% d) Usa MATLAB e integración numérica para calcular la energía Ey de la señal y(t).
+
+% Para el punto a)
+% 
+t = -10:0.01:10;
+a_values = [0.5, 1, 2];
+figure;
+
+for i = 1:length(a_values)
+    a = a_values(i);
+    x_t = exp(t * (1j * 2 * pi * a)) .* (t >= 0);
+    
+    subplot(length(a_values), 1, i);
+    plot(imag(x_t), real(x_t), 'LineWidth', 2);
+    title(['Re\{x(t)\} for a = ' num2str(a)]);
+    xlabel('Im\{x(at)\}');
+    ylabel('Re\{x(at)\}');
+    grid on;
+end
+
+% b) Graficar y(t) y determinante
+x_t = exp(t * (1j * 2 * pi * 2)) .* (t >= 0);
+y_t = real(2 * x_t((-5 - t) / 2));
+
+figure;
+plot(t, y_t, 'LineWidth', 2);
+title('y(t)');
+xlabel('t');
+ylabel('y(t)');
+grid on;
+
+t_0 = 0;
+
+disp(['Analytical t_0: ' num2str(t_0)]);
+disp(['Jump at t_0: ' num2str(y_t(t == t_0))]);
+
+% c) Energia Ex
+x_t = exp(t * (1j * 2 * pi * 2)) .* (t >= 0);
+E_x = trapz(t, abs(x_t).^2);
+disp(['Energy E_x: ' num2str(E_x)]);
+
+% d) Energia Ey
+x_t = exp(t * (1j * 2 * pi * 2)) .* (t >= 0);
+y_t = real(2 * x_t((-5 - t) / 2));
+E_y = trapz(t, abs(y_t).^2);
+
+disp(['Energy E_y: ' num2str(E_y)]);
+
+
+ 
+
+
+
+##### SOURCE END #####
+--></body></html>
